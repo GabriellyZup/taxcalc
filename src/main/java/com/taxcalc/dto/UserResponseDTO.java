@@ -5,6 +5,9 @@ public class UserResponseDTO {
     private String username;
     private String role;
 
+    public UserResponseDTO(Long id, String username, String role) {
+    }
+
     public String getRole() {
         return role;
     }
