@@ -1,4 +1,4 @@
-package com.taxcalc.Service;
+package com.taxcalc.service;
 
 import com.taxcalc.dto.UserRegistrationDTO;
 import com.taxcalc.dto.UserResponseDTO;
