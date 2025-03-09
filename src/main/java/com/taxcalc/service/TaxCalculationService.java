@@ -1,5 +1,6 @@
 package com.taxcalc.service;
 
+import com.taxcalc.dto.CalculationResponseDTO;
 import com.taxcalc.model.TaxType;
 import com.taxcalc.repository.TaxTypeRepository;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,6 @@ public class TaxCalculationService {
                 .orElseThrow(() -> new IllegalArgumentException("Tax type not found"));
         return baseValue * (taxType.getTaxRate() / 100);
     }
+
+
 }

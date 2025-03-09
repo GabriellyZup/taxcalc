@@ -1,7 +1,11 @@
 package com.taxcalc.controller;
 
+import com.taxcalc.dto.CalculationRequestDTO;
+import com.taxcalc.dto.CalculationResponseDTO;
 import com.taxcalc.service.TaxCalculationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/calculo")
@@ -13,55 +17,24 @@ public class TaxCalculationController {
     }
 
     @PostMapping
-    public CalculationResult calculateTax(
-            @RequestBody CalculationRequest request
+    public CalculationResponseDTO calculateTax(
+            @RequestBody CalculationRequestDTO request,
+            @RequestHeader("X-User-Role") String role // Adicione validação de role se necessário
     ) {
-        double taxAmount = taxCalculationService.calculateTax(request.getTaxTypeId(), request.getBaseValue());
-        return new CalculationResult(request.getTaxTypeId(), request.getBaseValue(), taxAmount);
-    }
-
-    private static class CalculationRequest {
-        private Long taxTypeId;
-        private double baseValue;
-
-        public Long getTaxTypeId() {
-            return taxTypeId; // retorna o campo
+        // Validação de role temporária (exemplo)
+        if (!"ADMIN".equals(role) ) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso restrito a ADMIN");
         }
 
-        public void setTaxTypeId(Long taxTypeId) {
-            this.taxTypeId = taxTypeId;
-        }
+        double taxAmount = taxCalculationService.calculateTax(
+                request.getTaxTypeId(),
+                request.getBaseValue()
+        );
 
-        public double getBaseValue() {
-            return baseValue;
-        }
-
-        public void setBaseValue(double baseValue) {
-            this.baseValue = baseValue;
-        }
-    }
-
-    private static class CalculationResult {
-        private final Long taxTypeId; // ← Usando final para imutabilidade
-        private final double baseValue;
-        private final double taxAmount;
-
-        public CalculationResult(Long taxTypeId, double baseValue, double taxAmount) {
-            this.taxTypeId = taxTypeId;
-            this.baseValue = baseValue;
-            this.taxAmount = taxAmount;
-        }
-
-        public Long getTaxTypeId() {
-            return taxTypeId;
-        }
-
-        public double getBaseValue() {
-            return baseValue;
-        }
-
-        public double getTaxAmount() {
-            return taxAmount;
-        }
+        return taxCalculationService.buildCalculationResponse(
+                request.getTaxTypeId(),
+                request.getBaseValue(),
+                taxAmount
+        );
     }
 }
