@@ -1,5 +1,7 @@
 package com.taxcalc.controller;
 
+import com.taxcalc.dto.TaxTypeRequest;
+import com.taxcalc.dto.TaxTypeResponse;
 import com.taxcalc.model.TaxType;
 import com.taxcalc.repository.TaxTypeRepository;
 import org.springframework.http.HttpStatus;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tipos")
@@ -17,48 +20,57 @@ public class TaxTypeController {
         this.taxTypeRepository = taxTypeRepository;
     }
 
-    // ENDPOINT 1: Listar todos
+    // ENDPOINT 1: Listar todos (usando DTO)
     @GetMapping
-    public List<TaxType> getAllTaxTypes() {
-        return taxTypeRepository.findAll();
+    public List<TaxTypeResponse> getAllTaxTypes() {
+        return taxTypeRepository.findAll().stream()
+                .map(TaxTypeResponse::new)
+                .collect(Collectors.toList());
     }
 
-    // ENDPOINT 2: Buscar por ID
+    // ENDPOINT 2: Buscar por ID (usando DTO)
     @GetMapping("/{id}")
-    public TaxType getTaxTypeById(@PathVariable Long id) {
+    public TaxTypeResponse getTaxTypeById(@PathVariable Long id) {
         return taxTypeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tax type not found"));
+                .map(TaxTypeResponse::new)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo de imposto não encontrado"));
     }
 
-    // ENDPOINT 3: Criar (somente ADMIN)
+    // ENDPOINT 3: Criar (usando DTO)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaxType createTaxType(
-            @RequestBody TaxType taxType,
-            @RequestHeader("X-User-Role") String role // ← Validação de role via header
+    public TaxTypeResponse createTaxType(
+            @RequestBody TaxTypeRequest request,
+            @RequestHeader("X-User-Role") String role
     ) {
-        // Validação de role
         if (!"ADMIN".equals(role)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas ADMIN pode executar esta ação");
         }
 
-        // Validação de alíquota
-        if (taxType.getTaxRate() < 0 || taxType.getTaxRate() > 100) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Alíquota inválida (0-100%)");
-        }
+        TaxType taxType = new TaxType();
+        taxType.setName(request.getName());
+        taxType.setDescription(request.getDescription());
+        taxType.setTaxRate(request.getTaxRate());
 
-        return taxTypeRepository.save(taxType);
+        TaxType savedTaxType = taxTypeRepository.save(taxType);
+        return new TaxTypeResponse(savedTaxType);
     }
 
-    // ENDPOINT 4: Excluir (somente ADMIN)
+    // ENDPOINT 4: Excluir
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTaxType(
             @PathVariable Long id,
-            @RequestHeader("X-User-Role") String role // ← Validação de role
+            @RequestHeader("X-User-Role") String role
     ) {
+        // Validação de role
         if (!"ADMIN".equals(role)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas ADMIN pode excluir impostos");
+        }
+
+        // Verifica se o imposto existe antes de excluir
+        if (!taxTypeRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo de imposto não encontrado");
         }
 
         taxTypeRepository.deleteById(id);

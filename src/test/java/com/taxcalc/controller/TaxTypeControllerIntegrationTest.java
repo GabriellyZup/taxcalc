@@ -1,34 +1,43 @@
+// TaxTypeControllerIntegrationTest.java (novo)
 package com.taxcalc.controller;
 
-import com.taxcalc.model.TaxType;
+import com.taxcalc.dto.request.TaxTypeRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TaxTypeControllerIntegrationTest {
+
     @Autowired
     private TestRestTemplate restTemplate;
 
+    private HttpHeaders createAdminHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-User-Role", "ADMIN");
+        return headers;
+    }
 
     @Test
-    void createTaxType_AdminRole_ReturnsCreated() {
-        TaxType taxType = new TaxType();
-        taxType.setName("ICMS");
-        taxType.setTaxRate(18.0);
+    void createTaxType_AsAdmin_ShouldSucceed() {
+        TaxTypeRequest request = new TaxTypeRequest(
+                "IVA Test",
+                BigDecimal.valueOf(23.0),
+                "Test tax"
+        );
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-User-Role", "ADMIN"); // ← Simula o header de role
+        HttpEntity<TaxTypeRequest> entity = new HttpEntity<>(request, createAdminHeaders());
 
-        ResponseEntity<TaxType> response = restTemplate.exchange(
+        ResponseEntity<?> response = restTemplate.postForEntity(
                 "/tipos",
-                HttpMethod.POST,
-                new HttpEntity<>(taxType, headers), // ← Passa o header
-                TaxType.class
+                entity,
+                Void.class
         );
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
