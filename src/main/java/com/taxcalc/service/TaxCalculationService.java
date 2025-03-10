@@ -26,6 +26,16 @@ public class TaxCalculationService {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
+<<<<<<< Updated upstream
+=======
+
+//ver esse retorno null
+
+    public CalculationResponseDTO buildCalculationResponse(Long taxTypeId, Double baseValue, BigDecimal taxAmount) {
+        return null;
+    }
+
+>>>>>>> Stashed changes
     public CalculationResponseDTO buildCalculationResponse(
             Long taxTypeId,
             BigDecimal baseValue,
