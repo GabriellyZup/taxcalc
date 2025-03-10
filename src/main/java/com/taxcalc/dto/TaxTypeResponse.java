@@ -3,6 +3,8 @@ package com.taxcalc.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.taxcalc.model.TaxType;
 
+import java.math.BigDecimal;
+
 public class TaxTypeResponse {
     @JsonProperty("id")
     private Long id;
@@ -14,7 +16,7 @@ public class TaxTypeResponse {
     private String description;
 
     @JsonProperty("aliquota")
-    private Double taxRate;
+    private BigDecimal taxRate;
 
     public TaxTypeResponse(TaxType taxType) {
         this.id = taxType.getId();
@@ -35,7 +37,7 @@ public class TaxTypeResponse {
         return description;
     }
 
-    public Double getTaxRate() {
+    public BigDecimal getTaxRate() {
         return taxRate;
     }
 }

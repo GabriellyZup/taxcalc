@@ -7,7 +7,6 @@ import com.taxcalc.repository.TaxTypeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,11 +15,12 @@ import java.util.stream.Collectors;
 public class TaxTypeController {
     private final TaxTypeRepository taxTypeRepository;
 
+    // Injeta apenas o repositório consolidado
     public TaxTypeController(TaxTypeRepository taxTypeRepository) {
         this.taxTypeRepository = taxTypeRepository;
     }
 
-    // ENDPOINT 1: Listar todos (usando DTO)
+    // ENDPOINT 1: Listar todos
     @GetMapping
     public List<TaxTypeResponse> getAllTaxTypes() {
         return taxTypeRepository.findAll().stream()
@@ -28,15 +28,15 @@ public class TaxTypeController {
                 .collect(Collectors.toList());
     }
 
-    // ENDPOINT 2: Buscar por ID (usando DTO)
+    // ENDPOINT 2: Buscar por ID
     @GetMapping("/{id}")
     public TaxTypeResponse getTaxTypeById(@PathVariable Long id) {
-        return taxTypeRepository.findById(id)
+        return taxTypeRepository.findById(id) // Método do JpaRepository
                 .map(TaxTypeResponse::new)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo de imposto não encontrado"));
     }
 
-    // ENDPOINT 3: Criar (usando DTO)
+    // ENDPOINT 3: Criar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaxTypeResponse createTaxType(
@@ -52,7 +52,7 @@ public class TaxTypeController {
         taxType.setDescription(request.getDescription());
         taxType.setTaxRate(request.getTaxRate());
 
-        TaxType savedTaxType = taxTypeRepository.save(taxType);
+        TaxType savedTaxType = taxTypeRepository.save(taxType); // Método do JpaRepository
         return new TaxTypeResponse(savedTaxType);
     }
 
@@ -63,16 +63,14 @@ public class TaxTypeController {
             @PathVariable Long id,
             @RequestHeader("X-User-Role") String role
     ) {
-        // Validação de role
         if (!"ADMIN".equals(role)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas ADMIN pode excluir impostos");
         }
 
-        // Verifica se o imposto existe antes de excluir
         if (!taxTypeRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo de imposto não encontrado");
         }
 
-        taxTypeRepository.deleteById(id);
+        taxTypeRepository.deleteById(id); // Método do JpaRepository
     }
 }
