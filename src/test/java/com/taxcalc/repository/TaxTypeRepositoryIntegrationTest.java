@@ -4,6 +4,9 @@ import com.taxcalc.model.TaxType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -16,7 +19,7 @@ class TaxTypeRepositoryIntegrationTest {
     void testCreateTaxType() {
         TaxType taxType = new TaxType();
         taxType.setName("ICMS");
-        taxType.setTaxRate(18.0);
+        taxType.setTaxRate(BigDecimal.valueOf(18.0));
         taxType.setDescription("Imposto sobre mercadorias");
 
         TaxType savedTaxType = taxTypeRepository.save(taxType);

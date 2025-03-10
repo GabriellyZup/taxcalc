@@ -1,9 +1,8 @@
 package com.taxcalc.model;
 
 import jakarta.persistence.*;
-//import lombok.Data;
+import java.math.BigDecimal;
 
-//@Data
 @Entity
 @Table(name = "tax_type")
 public class TaxType {
@@ -17,7 +16,10 @@ public class TaxType {
     private String description;
 
     @Column(name = "tax_rate", nullable = false)
-    private Double taxRate; // "taxRate" no código, mas mapeado para "tax_rate" no banco
+    private BigDecimal taxRate; // BigDecimal recomendado para impostos
+
+    public TaxType() {
+    }
 
     public Long getId() {
         return id;
@@ -43,11 +45,11 @@ public class TaxType {
         this.description = description;
     }
 
-    public Double getTaxRate() {
+    public BigDecimal getTaxRate() {
         return taxRate;
     }
 
-    public void setTaxRate(Double taxRate) {
+    public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
     }
 }
