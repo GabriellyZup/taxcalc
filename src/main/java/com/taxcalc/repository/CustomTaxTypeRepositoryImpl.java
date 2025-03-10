@@ -1,6 +1,9 @@
 package com.taxcalc.repository;
 
+import com.taxcalc.model.TaxType;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import java.util.Optional;
 
 public class CustomTaxTypeRepositoryImpl implements CustomTaxTypeRepository {
     private final EntityManager entityManager;
@@ -11,6 +14,12 @@ public class CustomTaxTypeRepositoryImpl implements CustomTaxTypeRepository {
 
     @Override
     public Optional<TaxType> findByName(String name) {
-        // Implemente a busca por nome usando JPQL
+        TypedQuery<TaxType> query = entityManager.createQuery(
+                "SELECT t FROM TaxType t WHERE t.name = :name", TaxType.class
+        );
+        query.setParameter("name", name);
+        return query.getResultStream().findFirst();
     }
 }
+
+//"feat: implement CustomTaxTypeRepositoryImpl.findByName"
