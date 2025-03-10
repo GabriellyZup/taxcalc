@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/calculo")
 public class TaxCalculationController {
@@ -26,7 +28,7 @@ public class TaxCalculationController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso restrito a ADMIN");
         }
 
-        double taxAmount = taxCalculationService.calculateTax(
+        BigDecimal taxAmount = taxCalculationService.calculateTax(
                 request.getTaxTypeId(),
                 request.getBaseValue()
         );
