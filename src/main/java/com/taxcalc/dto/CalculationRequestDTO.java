@@ -3,6 +3,8 @@ package com.taxcalc.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 
+import java.math.BigDecimal;
+
 public class CalculationRequestDTO {
     @NotNull(message = "O ID do tipo de imposto é obrigatório")
     @Positive(message = "O ID do tipo de imposto deve ser positivo")
@@ -22,8 +24,8 @@ public class CalculationRequestDTO {
         this.taxTypeId = taxTypeId;
     }
 
-    public Double getBaseValue() {
-        return baseValue;
+    public BigDecimal getBaseValue() {
+        return BigDecimal.valueOf(baseValue);
     }
 
     public void setBaseValue(Double baseValue) {

@@ -1,40 +1,58 @@
 package com.taxcalc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CalculationResponseDTO {
     @JsonProperty("tipoImposto")
     private String taxTypeName;
 
     @JsonProperty("valorBase")
-    private Double baseValue;
+    private BigDecimal baseValue;
 
     @JsonProperty("aliquota")
-    private Double taxRate;
+    private BigDecimal taxRate;
 
     @JsonProperty("valorImposto")
-    private Double taxAmount;
+    private BigDecimal taxAmount;
 
-    public CalculationResponseDTO(String taxTypeName, Double baseValue, Double taxRate, Double taxAmount) {
+    @JsonProperty("valorTotal")
+    private BigDecimal totalAmount; // New field
+
+    // Updated constructor with all fields
+    public CalculationResponseDTO(
+            String taxTypeName,
+            BigDecimal baseValue,
+            BigDecimal taxRate,
+            BigDecimal taxAmount,
+            BigDecimal totalAmount)
+
+    {
+
         this.taxTypeName = taxTypeName;
         this.baseValue = baseValue;
         this.taxRate = taxRate;
         this.taxAmount = taxAmount;
+        this.totalAmount = totalAmount;
     }
 
     public String getTaxTypeName() {
         return taxTypeName;
     }
 
-    public Double getBaseValue() {
+    public BigDecimal getBaseValue() {
         return baseValue;
     }
 
-    public Double getTaxRate() {
+    public BigDecimal getTaxRate() {
         return taxRate;
     }
 
-    public Double getTaxAmount() {
+    public BigDecimal getTaxAmount() {
         return taxAmount;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 }
