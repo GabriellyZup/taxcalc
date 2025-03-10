@@ -5,6 +5,8 @@ import com.taxcalc.model.TaxType;
 import com.taxcalc.repository.TaxTypeRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class TaxCalculationService {
     private final TaxTypeRepository taxTypeRepository;
@@ -19,5 +21,9 @@ public class TaxCalculationService {
         return baseValue * (taxType.getTaxRate() / 100);
     }
 
+//ver esse retorno null
 
+    public CalculationResponseDTO buildCalculationResponse(Long taxTypeId, Double baseValue, BigDecimal taxAmount) {
+        return null;
+    }
 }
