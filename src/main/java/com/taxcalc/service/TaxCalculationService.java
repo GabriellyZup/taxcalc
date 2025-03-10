@@ -29,11 +29,16 @@ public class TaxCalculationService {
     }
 
 
+
 //ver esse retorno null
 
     public CalculationResponseDTO buildCalculationResponse(Long taxTypeId, Double baseValue, BigDecimal taxAmount) {
         return null;
-=======
+fix/solid-interface-segregation
+    }
+
+
+
     public CalculationResponseDTO buildCalculationResponse(
             Long taxTypeId,
             BigDecimal baseValue,
