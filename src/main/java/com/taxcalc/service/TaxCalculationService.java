@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import java.math.BigDecimal;
+
 @Service
 public class TaxCalculationService {
     private final TaxTypeRepository taxTypeRepository;
@@ -26,16 +28,11 @@ public class TaxCalculationService {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-<<<<<<< Updated upstream
-=======
-
 //ver esse retorno null
 
     public CalculationResponseDTO buildCalculationResponse(Long taxTypeId, Double baseValue, BigDecimal taxAmount) {
         return null;
-    }
 
->>>>>>> Stashed changes
     public CalculationResponseDTO buildCalculationResponse(
             Long taxTypeId,
             BigDecimal baseValue,
@@ -53,5 +50,6 @@ public class TaxCalculationService {
                 taxAmount,
                 totalAmount
         );
+
     }
 }
