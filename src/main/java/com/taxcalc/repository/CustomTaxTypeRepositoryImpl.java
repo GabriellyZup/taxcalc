@@ -22,4 +22,3 @@ public class CustomTaxTypeRepositoryImpl implements CustomTaxTypeRepository {
     }
 }
 
-//"feat: implement CustomTaxTypeRepositoryImpl.findByName"

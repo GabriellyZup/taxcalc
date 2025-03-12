@@ -2,24 +2,33 @@ package com.taxcalc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
-public class TaxTypeRequest {
-    @NotBlank(message = "O nome é obrigatório")
-    @JsonProperty("nome") // Mapeia o campo "nome" do JSON para "name"
+@Schema(name = "TaxTypeRequest", description = "DTO para cadastro de novo tipo de imposto")
+
+
+public class TaxTypeRequestDTO {
+    @NotBlank(message = "Name is required")
+    @JsonProperty("nome")
+    @Schema(description = "Tax type name", example = "ICMS", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
     @JsonProperty("descricao")
+    @Schema(description = "Tax description", example = "Imposto sobre Circulação de Mercadorias e Serviços")
     private String description;
 
-    @JsonProperty("aliquota") // Mapeia "aliquota" do JSON para "taxRate"
+    @JsonProperty("aliquota")
+    @NotNull(message = "Tax rate is required")
+    @Schema(description = "Tax rate percentage", example = "18.0", requiredMode = Schema.RequiredMode.REQUIRED)
     private BigDecimal taxRate;
 
     //ver se isso aqui vai funcionar na test
-    public TaxTypeRequest(String ivaTest, BigDecimal bigDecimal, String testTax) {
+    public TaxTypeRequestDTO(String ivaTest, BigDecimal bigDecimal, String testTax) {
     }
 
+    public TaxTypeRequestDTO() {}
 
     public String getName() {
         return name;
