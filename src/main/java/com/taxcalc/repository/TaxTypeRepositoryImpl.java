@@ -15,7 +15,6 @@ public class TaxTypeRepositoryImpl implements CustomTaxTypeRepository {
 
     @Override
     public Optional<TaxType> findByName(String name) {
-        // Mantenha apenas se a query for complexa (ex: joins, filtros especiais)
         return entityManager.createQuery(
                         "SELECT t FROM TaxType t WHERE t.name = :name", TaxType.class)
                 .setParameter("name", name)
