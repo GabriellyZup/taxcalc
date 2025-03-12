@@ -15,9 +15,24 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/register", "/user/login").permitAll()
+                        // Libera endpoints públicos
+                        .requestMatchers("/user/register", "/user/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/tipos", "/tipos/**").hasRole("ADMIN")
+                        .requestMatchers("/calculo").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
+                    //permitAll()
+                     //   .anyRequest().authenticated()
+                    // );
+//        @Bean
+//        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//            http
+//                    .csrf(csrf -> csrf.disable())
+//                    .authorizeHttpRequests(auth -> auth
+//                            .anyRequest().permitAll() // ⚠️ Remove autenticação temporariamente
+//                    );
+//            return http.build();
+//        }
 
         return http.build();
     }
