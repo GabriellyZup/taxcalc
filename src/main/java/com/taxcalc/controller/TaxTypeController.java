@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "Tax Types", description = "Endpoints para gerenciamento de tipos de impostos")
 @RestController
-@RequestMapping("/types")
+@RequestMapping("/tipos")
 public class TaxTypeController {
     private final TaxTypeRepository taxTypeRepository;
 
