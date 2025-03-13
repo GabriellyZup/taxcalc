@@ -35,7 +35,6 @@ public class UserController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDTO register(@RequestBody UserRegistrationDTO dto) {
-        //UserService userService = new UserService();
         if (dto.getUsername() == null || dto.getUsername().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username é obrigatório");
         }

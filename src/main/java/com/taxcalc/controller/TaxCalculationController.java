@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 
 )
 @RestController
-@RequestMapping("/calculo")
+@RequestMapping("/calc")
 public class TaxCalculationController {
 
     private final TaxCalculationService taxCalculationService;
