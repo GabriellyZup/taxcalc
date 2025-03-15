@@ -20,6 +20,17 @@ public class User {
     @Column(nullable = false)
     private String role; // ADMIN ou USER
 
+    public User(Long id, String username, String password, String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User() {
+
+    }
+
     public String getRole() {
         return role;
     }

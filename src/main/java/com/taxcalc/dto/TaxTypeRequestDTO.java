@@ -6,23 +6,23 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
-@Schema(name = "TaxTypeRequest", description = "DTO para cadastro de novo tipo de imposto")
+@Schema(name = "TaxTypeRequest", description = "DTO request para tipo de imposto")
 
 
 public class TaxTypeRequestDTO {
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "Nome é obrigatório")
     @JsonProperty("nome")
-    @Schema(description = "Tax type name", example = "ICMS", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String name;
+    @Schema(description = "Nome do tipo de imposto", example = "ICMS", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String nome;
 
     @JsonProperty("descricao")
-    @Schema(description = "Tax description", example = "Imposto sobre Circulação de Mercadorias e Serviços")
-    private String description;
+    @Schema(description = "Descrição do imposto", example = "Imposto sobre Circulação de Mercadorias e Serviços")
+    private String descricao;
 
     @JsonProperty("aliquota")
-    @NotNull(message = "Tax rate is required")
-    @Schema(description = "Tax rate percentage", example = "18.0", requiredMode = Schema.RequiredMode.REQUIRED)
-    private BigDecimal taxRate;
+    @NotNull(message = "A taxa de imposto é obrigatória")
+    @Schema(description = "Percentagem da taxa de imposto", example = "18.0", requiredMode = Schema.RequiredMode.REQUIRED)
+    private BigDecimal aliquota;
 
     //ver se isso aqui vai funcionar na test
     public TaxTypeRequestDTO(String ivaTest, BigDecimal bigDecimal, String testTax) {
@@ -30,27 +30,30 @@ public class TaxTypeRequestDTO {
 
     public TaxTypeRequestDTO() {}
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+            this.nome = this.nome;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public BigDecimal getTaxRate() {
-        return taxRate;
+    public BigDecimal getAliquota() {
+        return aliquota;
     }
 
-    public void setTaxRate(BigDecimal taxRate) {
-        this.taxRate = taxRate;
+    public void aliquota(BigDecimal aliquota) {
+        this.aliquota = aliquota;
     }
+
+
+
 }

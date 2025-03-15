@@ -3,7 +3,7 @@ package com.taxcalc.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
-@Schema(name = "UserRegistration", description = "DTO for user registration request")
+@Schema(name = "UserRegistration", description = "DTO request para tratamento de user")
 public class UserRegistrationDTO {
 
     @NotBlank(message = "O nome de usuário é obrigatório")

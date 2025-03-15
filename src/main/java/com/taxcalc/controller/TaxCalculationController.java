@@ -47,22 +47,22 @@ public class TaxCalculationController {
             @Parameter(
                     description = "User role header",
                     example = "ADMIN",
-                    required = true
+                    required = false
             ) String role
     ) {
         if (!"ADMIN".equals(role) ) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso restrito a ADMIN");
         }
 
-        BigDecimal taxAmount = taxCalculationService.calculateTax(
-                request.getTaxTypeId(),
-                request.getBaseValue()
+        BigDecimal valorImposto = taxCalculationService.calculateTax(
+                request.tipoImpostoId(),
+                request.getvalorBase()
         );
 
         return taxCalculationService.buildCalculationResponse(
-                request.getTaxTypeId(),
-                request.getBaseValue(),
-                taxAmount
+                request.tipoImpostoId(),
+                request.getvalorBase(),
+                valorImposto
         );
     }
 }

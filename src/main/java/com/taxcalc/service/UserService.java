@@ -9,10 +9,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
-@Tag(name = "User Service", description = "Service for user registration and management")
+@Tag(name = "User Service", description = "Service para tratamento de usuários")
 public class UserService {
     private final UserRepository userRepository;
 
@@ -21,14 +23,18 @@ public class UserService {
     }
 
     @Operation(
-            summary = "Register a new user",
-            description = "Creates a new user account with username, password, and role"
+            summary = "Registrar um novo usuário",
+            description = "Criar um novo usuário com username, password, e role"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "User created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data")
+            @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Entrada de dados inválida")
     })
     public UserResponseDTO registerUser(UserRegistrationDTO dto) {
+        if (userRepository.existsByUsername(dto.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username já existe");
+        }
+
         if (dto.getUsername() == null || dto.getUsername().isBlank()) {
             throw new IllegalArgumentException("O nome de usuário é obrigatório");
         }

@@ -5,60 +5,60 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
-@Schema(name = "CalculationResponse", description = "DTO for tax calculation response")
+@Schema(name = "CalculationResponse", description = "DTO response para o cálculo do imposto")
 public class CalculationResponseDTO {
 
     @JsonProperty("tipoImposto")
     @Schema(description = "Nome do imposto", example = "ICMS")
-    private String taxTypeName;
+    private String tipoImpostoId;
 
     @JsonProperty("valorBase")
     @Schema(description = "Valor base o calculo", example = "1000.0")
-    private BigDecimal baseValue;
+    private BigDecimal valorBase;
 
     @JsonProperty("aliquota")
     @Schema(description = "Taxa de imposto devido", example = "18.0")
-    private BigDecimal taxRate;
+    private BigDecimal aliquota;
 
     @JsonProperty("valorImposto")
     @Schema(description = "Calculo do valor do imposto", example = "180.0")
-    private BigDecimal taxAmount;
+    private BigDecimal valorImposto;
 
     @JsonProperty("valorTotal")
     @Schema(description = "Total  (base + imposto)", example = "1180.0")
-    private BigDecimal totalAmount;
+    private BigDecimal valorTotal;
 
     public CalculationResponseDTO(
-            String taxTypeName,
-            BigDecimal baseValue,
-            BigDecimal taxRate,
-            BigDecimal taxAmount,
-            BigDecimal totalAmount
+            String tipoImpostoId,
+            BigDecimal valorBase,
+            BigDecimal aliquota,
+            BigDecimal valorImposto,
+            BigDecimal valorTotal
     ) {
-        this.taxTypeName = taxTypeName;
-        this.baseValue = baseValue;
-        this.taxRate = taxRate;
-        this.taxAmount = taxAmount;
-        this.totalAmount = totalAmount;
+        this.tipoImpostoId = tipoImpostoId;
+        this.valorBase = valorBase;
+        this.aliquota = aliquota;
+        this.valorImposto = valorImposto;
+        this.valorTotal = valorTotal;
     }
 
-    public String getTaxTypeName() {
-        return taxTypeName;
+    public String getTipoImpostoId() {
+        return tipoImpostoId;
     }
 
-    public BigDecimal getBaseValue() {
-        return baseValue;
+    public BigDecimal getValorBase() {
+        return valorBase;
     }
 
-    public BigDecimal getTaxRate() {
-        return taxRate;
+    public BigDecimal getAliquota() {
+        return aliquota;
     }
 
-    public BigDecimal getTaxAmount() {
-        return taxAmount;
+    public BigDecimal getValorImposto() {
+        return valorImposto;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public BigDecimal getValorTotal() {
+        return valorTotal;
     }
 }

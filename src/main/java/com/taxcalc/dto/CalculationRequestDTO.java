@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
-@Schema(name = "CalculationRequest", description = "DTO for tax calculation request")
+@Schema(name = "CalculationRequest", description = "DTO request para o cálculo do imposto")
 public class CalculationRequestDTO {
 
     @NotNull(message = "O ID do tipo de imposto é obrigatório")
@@ -17,31 +17,29 @@ public class CalculationRequestDTO {
             example = "1",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private Long taxTypeId;
+    private Long tipoImpostoId;
 
-    @NotNull(message = "O valor base é obrigatório")
-    @PositiveOrZero(message = "O valor base não pode ser negativo")
     @JsonProperty("valorBase")
     @Schema(
-            description = "Base value for calculation",
+            description = "Valor base para calculo",
             example = "1000.0",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private Double baseValue;
+    private BigDecimal valorBase;
 
-    public Long getTaxTypeId() {
-        return taxTypeId;
+    public Long tipoImpostoId() {
+        return tipoImpostoId;
     }
 
-    public void setTaxTypeId(Long taxTypeId) {
-        this.taxTypeId = taxTypeId;
+    public void tipoImpostoId(Long taxTypeId) {
+        this.tipoImpostoId = taxTypeId;
     }
 
-    public BigDecimal getBaseValue() {
-        return BigDecimal.valueOf(baseValue);
+    public BigDecimal getvalorBase() {
+        return BigDecimal.valueOf(valorBase);
     }
 
-    public void setBaseValue(Double baseValue) {
-        this.baseValue = baseValue;
+    public void setvalorBase(BigDecimal baseValue) {
+        this.valorBase = baseValue;
     }
 }

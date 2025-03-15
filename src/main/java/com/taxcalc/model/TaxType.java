@@ -11,12 +11,12 @@ public class TaxType {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String nome;
 
-    private String description;
+    private String descricao;
 
-    @Column(name = "tax_rate", nullable = false)
-    private BigDecimal taxRate; // BigDecimal recomendado para impostos
+    @Column(name = "aliquota", nullable = false)
+    private BigDecimal aliquota; // BigDecimal recomendado para impostos
 
     public TaxType() {
     }
@@ -29,27 +29,27 @@ public class TaxType {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public BigDecimal getTaxRate() {
-        return taxRate;
+    public BigDecimal getAliquota() {
+        return aliquota;
     }
 
-    public void setTaxRate(BigDecimal taxRate) {
-        this.taxRate = taxRate;
+    public void setAliquota(BigDecimal aliquota) {
+        this.aliquota = aliquota;
     }
 }

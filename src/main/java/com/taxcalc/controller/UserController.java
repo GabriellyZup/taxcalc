@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "User Management", description = "User registration and authentication endpoints")
+@Tag(name = "User Management", description = "Registro de usuario e criação de endpoints")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -24,18 +24,21 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Register new user",
-            description = "Creates a new user account with username and password"
+            summary = "Registrar novo usuario",
+            description = "Criar um novo usuario com nome e password"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "User created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data")
+            @ApiResponse(responseCode = "201", description = "Usuario criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Entrada de dados invalida")
     })
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDTO register(@RequestBody UserRegistrationDTO dto) {
         //UserService userService = new UserService();
+        if (dto.getRole() == null || !dto.getRole().matches("ADMIN|USER")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role inválida (use ADMIN ou USER)");
+        }
         if (dto.getUsername() == null || dto.getUsername().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username é obrigatório");
         }

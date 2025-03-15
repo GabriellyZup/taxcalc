@@ -21,7 +21,7 @@ public class TaxCalculationService {
         TaxType taxType = taxTypeRepository.findById(taxTypeId)
                 .orElseThrow(() -> new IllegalArgumentException("Imposto não localizado"));
 
-        BigDecimal taxRateDecimal = taxType.getTaxRate()
+        BigDecimal taxRateDecimal = taxType.getAliquota()
                 .divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
 
         return baseValue.multiply(taxRateDecimal)
@@ -29,21 +29,22 @@ public class TaxCalculationService {
     }
 
     public CalculationResponseDTO buildCalculationResponse(
-            Long taxTypeId,
-            BigDecimal baseValue,
-            BigDecimal taxAmount
+            Long tipoImpostoId,
+            BigDecimal valorBase,
+            BigDecimal aliquota
     ) {
-        TaxType taxType = taxTypeRepository.findById(taxTypeId)
+        TaxType taxType = taxTypeRepository.findById(tipoImpostoId)
                 .orElseThrow(() -> new IllegalArgumentException("Imposto não localizado"));
 
-        BigDecimal totalAmount = baseValue.add(taxAmount);
+        BigDecimal valorTotal = valorBase.add(aliquota);
 
         return new CalculationResponseDTO(
-                taxType.getName(),
-                baseValue,
-                taxType.getTaxRate(),
-                taxAmount,
-                totalAmount
+                taxType.getNome(),
+                valorBase,
+                taxType.getAliquota(),
+                aliquota,
+                valorTotal
         );
     }
 }
+
