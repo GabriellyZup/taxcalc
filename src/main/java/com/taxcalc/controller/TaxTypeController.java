@@ -29,7 +29,6 @@ public class TaxTypeController {
         this.taxTypeRepository = taxTypeRepository;
     }
 
-    // ENDPOINT 1: Listar todos
     @Operation(
             summary = "Listar todos os tipos de impostos",
             description = "Retorna uma lista de todos os tipos de impostos registrados"
@@ -44,10 +43,9 @@ public class TaxTypeController {
                 .collect(Collectors.toList());
     }
 
-    // ENDPOINT 2: Buscar por ID
     @Operation(
             summary = "Obter tipo de imposto por ID",
-    description = "Retorna os detalhes de um tipo de imposto específico"
+            description = "Retorna os detalhes de um tipo de imposto específico"
 
 
 
@@ -55,8 +53,8 @@ public class TaxTypeController {
 
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Tax type found"),
-            @ApiResponse(responseCode = "404", description = "Tax type not found")
+            @ApiResponse(responseCode = "200", description = "Tipo de imposto encontrado"),
+            @ApiResponse(responseCode = "404", description = "Tipo de imposto não encontrado")
     })
     @GetMapping("/{id}")
     public TaxTypeResponseDTO getTaxTypeById(@PathVariable Long id) {
@@ -65,15 +63,14 @@ public class TaxTypeController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo de imposto não encontrado"));
     }
 
-    // ENDPOINT 3: Criar
     @Operation(
-            summary = "Create new tax type",
-            description = "Registers a new tax type (ADMIN role required)"
+            summary = "Criar novo tipo de imposto",
+            description = "Registra um novo tipo de imposto (ADMIN role requerido)"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Tax type created successfully"),
-            @ApiResponse(responseCode = "403", description = "Forbidden: ADMIN role required"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data")
+            @ApiResponse(responseCode = "201", description = "Tipo de imposto criado com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Bloqueado: ADMIN role requerido"),
+            @ApiResponse(responseCode = "400", description = "Entrada de dados invalida")
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -91,30 +88,29 @@ public class TaxTypeController {
         }
 
         TaxType taxType = new TaxType();
-        taxType.setName(request.getName());
-        taxType.setDescription(request.getDescription());
-        taxType.setTaxRate(request.getTaxRate());
+        taxType.setNome(request.getNome());
+        taxType.setDescricao(request.getDescricao());
+        taxType.setAliquota(request.getAliquota());
 
         TaxType savedTaxType = taxTypeRepository.save(taxType); // Método do JpaRepository
         return new TaxTypeResponseDTO(savedTaxType);
     }
 
-    // ENDPOINT 4: Excluir
 
     @Operation(
-            summary = "Delete tax type",
-            description = "Deletes a tax type by ID (ADMIN role required)"
+            summary = "Excluir tipo de imposto",
+            description = "Deleta tipo de imposto por ID (ADMIN role requerido)"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Tax type deleted successfully"),
-            @ApiResponse(responseCode = "403", description = "Forbidden: ADMIN role required"),
-            @ApiResponse(responseCode = "404", description = "Tax type not found")
+            @ApiResponse(responseCode = "204", description = "Tipo de imposto excluido com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Bloqueado: ADMIN role requerido"),
+            @ApiResponse(responseCode = "404", description = "Tipo de imposto não encontrado")
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTaxType(
             @PathVariable
-            @Parameter(description = "ID of the tax type to delete", example = "1")
+            @Parameter(description = "ID do tipo de imposto excluido", example = "1")
             Long id,
             @RequestHeader("X-User-Role")
             @Parameter(
@@ -123,7 +119,7 @@ public class TaxTypeController {
                     required = true
             )String role
     ) {
-        if (!"ADMIN".equals(role)) {
+        if (role == null || !role.equals("ADMIN")) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas ADMIN pode excluir impostos");
         }
 

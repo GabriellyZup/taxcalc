@@ -3,7 +3,7 @@ package com.taxcalc.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(name = "UserResponse", description = "DTO for user response data")
+@Schema(name = "UserResponse", description = "DTO response para tratamento de user")
 public class UserResponseDTO {
 
     @JsonProperty("id")

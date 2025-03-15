@@ -9,40 +9,40 @@ import java.math.BigDecimal;
 
 public class TaxTypeResponseDTO {
     @JsonProperty("id")
-    @Schema(description = "Unique identifier of the tax type", example = "1")
+    @Schema(description = "Id do tipo de imposto", example = "1")
     private Long id;
 
     @JsonProperty("nome")
-    @Schema(description = "Name of the tax", example = "ICMS")
-    private String name;
+    @Schema(description = "Nome do imposto", example = "ICMS")
+    private String nome;
 
     @JsonProperty("descricao")
-    @Schema(description = "Detailed description", example = "Imposto sobre Circulação de Mercadorias e Serviços")
-    private String description;
+    @Schema(description = "Descrição do imposto", example = "Imposto sobre Circulação de Mercadorias e Serviços")
+    private String descricao;
 
     @JsonProperty("aliquota")
-    @Schema(description = "Tax rate percentage", example = "18.0")
-    private BigDecimal taxRate;
+    @Schema(description = "Percentagem da taxa de imposto", example = "18.0")
+    private BigDecimal aliquota;
 
     public TaxTypeResponseDTO(TaxType taxType) {
         this.id = taxType.getId();
-        this.name = taxType.getName();
-        this.description = taxType.getDescription();
-        this.taxRate = taxType.getTaxRate();
+        this.nome = taxType.getNome();
+        this.descricao = taxType.getDescricao();
+        this.aliquota = taxType.getAliquota();
     }
     public Long getId() {
         return id;
     }
 
     public String getName() {
-        return name;
+        return nome;
     }
 
     public String getDescription() {
-        return description;
+        return descricao;
     }
 
-    public BigDecimal getTaxRate() {
-        return taxRate;
+    public BigDecimal getAliquota() {
+        return aliquota;
     }
 }
